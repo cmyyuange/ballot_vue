@@ -34,7 +34,7 @@ const handle_confirm = () => {
       title: "注册成功",
       showConfirmButton: false,
       timer: 1500
-    }).then(sign_up_window = false);
+    }).then();
   }else {
     Swal.fire({
       icon: "error",
