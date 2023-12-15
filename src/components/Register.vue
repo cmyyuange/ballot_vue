@@ -2,19 +2,18 @@
   <div id="background">
     <div id="background-board">
       <div id="logIn-frame">
-        <div id="logo">
-          <img src="../assets/szu_logo.png" alt="szu_logo"
-               style="width: 100px; height: auto; margin-top: 20px; margin-bottom: 30px">
+        <div id="register-Title">
+          <h1 class="title">用 户 注 册</h1>
         </div>
         <div>
-          <input type="text" id="username" placeholder="请输入账户" v-model="username_1">
+          <input type="text" id="username" placeholder="请输入账户" v-model="newUserName">
         </div>
         <div>
-          <input type="password" id="password" placeholder="请输入密码" v-model="password_1">
+          <input type="password" id="password" placeholder="请输入密码" v-model="newPassWord">
         </div>
         <div id="log-button-panel">
-          <button class="log-button" type="button" @click="handle_sign_in">登 录</button>
-          <button class="log-button" type="button" @click="handleRegister">注 册</button>
+          <button class="log-button" type="button" @click="handleRegister">确认</button>
+          <button class="log-button" type="button" @click="exit">退出</button>
         </div>
       </div>
     </div>
@@ -26,53 +25,43 @@
 import Swal from "sweetalert2";
 
 export default {
-  name: "Login",
+  name: "Register",
   data() {
     return {
-      username_1: '',
-      username_2: '',
-      password_1: '',
-      password_2: '',
-    };
+      newUserName: null,
+      newPassWord:null
+
+    }
   },
   methods: {
-    handle_sign_in() {
-      if (localStorage.getItem(this.username_1) === this.password_1) {
-        // 登录成功
+    exit() {
+      const router = this.$router;
+      router.push("/")
+    },
+    handleRegister() {
+      //todo:注册账号
+      if (localStorage.getItem(this.newUserName) === null) {
+        localStorage.setItem(this.newUserName, this.newPassWord);
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "登陆成功",
+          title: "注册成功",
           showConfirmButton: false,
-          timer: 1000
-        }).then(() => {
-          const router = this.$router;
-          router.push("/Loginsuccessful");
-        });
+          timer: 1500
+        }).then();
       } else {
         Swal.fire({
           icon: "error",
           title: "错误",
-          text: "用户名或密码错误！",
+          text: "用户名已存在！",
         });
       }
     },
-
-    handleLogout() {
-// 执行登出操作
-// 例如清除会话数据，重定向到登录页等等
-    },
-    handleRegister() {
-      const router = this.$router;
-      router.push('/Register')
-    },
   }
-};
+}
 </script>
 
-
 <style scoped>
-
 /* 大背景 */
 #background {
   background-image: url('../assets/jhk-1702398763890.gif');
@@ -91,8 +80,13 @@ export default {
   background-color: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 350px;
+}
+
+#logIn-frame {
+  display: grid;
+  place-items: center;
 }
 
 #logIn-frame {
@@ -125,6 +119,12 @@ input:focus {
 input:hover {
   border-color: #888; /* 悬停时的边框颜色 */
 }
+.title {
+  color: white;
+  font-size: 40px;
+  font-family: "Adobe 宋体 Std L", serif;
+  padding: 0px 10px 10px 10px;
+}
 
 /* 输入文本占位符 */
 input::placeholder {
@@ -139,7 +139,9 @@ input::placeholder {
   display: flex;
   justify-content: center;
 }
+#register-Title{
 
+}
 /* 登录注册按钮 */
 .log-button {
   background-color: rgba(139, 0, 0, 0.5);
@@ -160,8 +162,4 @@ input::placeholder {
   transform: scale(1.2);
   box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
 }
-
-
-
-
 </style>
